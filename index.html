@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCPs for Humans</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="header-main">
+                <div class="header-title">
+                    <img src="logo.png" alt="MCPs for Humans Logo" class="app-logo">
+                    <h1>MCPs for Humans</h1>
+                </div>
+                <div class="header-controls">
+                    <span id="historyBtn" class="history-link" title="View previous versions of your configuration and restore from backups">History</span>
+                    <div class="auto-save-status" id="autoSaveStatus" title="Your changes are automatically saved. Green checkmark means all changes are saved to disk.">
+                        <span class="status-icon">✓</span>
+                        <span class="status-text">Auto-saved</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-path">
+                <div class="file-path-container">
+                    <span id="configFilePath" class="config-file-path"></span>
+                    <div class="file-path-actions">
+                        <button id="openFolderBtn" class="file-path-icon" title="Open the folder containing this configuration file in Finder/Explorer">
+                            📂
+                        </button>
+                        <button id="switchFileBtn" class="file-path-icon" title="Browse and switch to a different Claude configuration file">
+                            📄
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="config-section">
+                <div class="section-header">
+                    <h2>MCP Servers</h2>
+                    <div class="add-server-dropdown">
+                        <button id="addServerDropdownBtn" class="btn btn-primary" title="Add a new MCP server to extend Claude's capabilities with external tools and data sources">
+                            <span class="btn-text">Add a MCP Server</span>
+                        </button>
+                        <div id="addServerDropdownMenu" class="dropdown-menu hidden">
+                            <div class="dropdown-item" id="manualEntryOption" title="Use the guided form to enter server details step-by-step">
+                                <div class="dropdown-icon">✏️</div>
+                                <div class="dropdown-content">
+                                    <div class="dropdown-title">Manual Entry</div>
+                                    <div class="dropdown-subtitle">UI to enter your command</div>
+                                </div>
+                            </div>
+                            <div class="dropdown-item" id="pasteJsonOption" title="Import server configuration by copying and pasting JSON from documentation or examples">
+                                <div class="dropdown-icon">📋</div>
+                                <div class="dropdown-content">
+                                    <div class="dropdown-title">Copy/Paste JSON</div>
+                                    <div class="dropdown-subtitle">Import from existing config</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="serversList" class="servers-list"></div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>Open source. Free forever. Built for the Claude community.</p>
+        </footer>
+    </div>
+
+    <!-- Server Editor Modal -->
+    <div id="serverModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add Server</h2>
+                <div class="modal-header-actions">
+                    <button id="modalModeToggle" class="btn btn-small btn-raw" title="Switch to raw JSON editor for advanced users who want to edit the configuration directly">{} Raw</button>
+                    <button class="close-btn" title="Close this dialog without saving changes">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <!-- Visual Mode Content -->
+                <div id="visualModeContent">
+                    <div class="form-group">
+                        <label for="serverName" title="This is the name that will appear in Claude's list of available tools">Server Name:</label>
+                        <input type="text" id="serverName" placeholder="e.g., my-server" title="A unique name to identify this MCP server - this is what you'll see in Claude's tools list">
+                    </div>
+                    
+                    <!-- Command Parser Section -->
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                            <label for="commandInput" title="This is the command that will be executed to start the MCP server (e.g., 'node', 'python', 'npx')">Command:</label>
+                            <button type="button" id="smartQuoteToggle" class="btn btn-small" title="Automatically add quotes around arguments that contain special characters like spaces or symbols">
+                                🔤 Smart Quotes: ON
+                            </button>
+                        </div>
+                        <input type="text" id="commandInput" placeholder="e.g., node server.js --port 3000" class="command-input" title="The complete command line to run this MCP server, including all arguments and options">
+                        <div id="commandError" class="error-message hidden"></div>
+                        
+                        <!-- Parsed Output Display -->
+                        <div id="parsedDisplay" class="parsed-display hidden">
+                            <div class="parsed-item">
+                                <span class="parsed-label">Command:</span>
+                                <span id="parsedCommand" class="parsed-value"></span>
+                            </div>
+                            <div class="parsed-item">
+                                <span class="parsed-label">Arguments:</span>
+                                <span id="parsedArgs" class="parsed-value"></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Example Commands -->
+                        <div class="example-commands">
+                            <small>Examples (click to use):</small>
+                            <button type="button" class="example-btn" data-command="node server.js">node server.js</button>
+                            <button type="button" class="example-btn" data-command='python script.py --port 3000 --verbose'>python script.py --port 3000 --verbose</button>
+                            <button type="button" class="example-btn" data-command='"/Program Files/node/node.exe" server.js'>"/Program Files/node/node.exe" server.js</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Hidden fields for storing parsed values -->
+                    <input type="hidden" id="serverCommand">
+                    <input type="hidden" id="serverArgs">
+                    
+                    <div class="form-group">
+                        <label>Environment Variables:</label>
+                        <div id="envVarsList" class="env-vars-list"></div>
+                        <button id="addEnvVarBtn" class="btn btn-small" title="Add environment variables (like API keys or configuration settings) that the MCP server needs to run">Add Environment Variable</button>
+                    </div>
+                </div>
+                
+                <!-- Raw Mode Content -->
+                <div id="rawModeContent" class="hidden">
+                    <div class="raw-editor-info">
+                        <p>Edit the server configuration directly in JSON format:</p>
+                    </div>
+                    <textarea id="rawEditorTextarea" class="raw-editor-textarea" placeholder='{"command": "node", "args": ["server.js"]}'></textarea>
+                    <div id="rawModeError" class="error-message hidden"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelModalBtn" class="btn" title="Discard changes and close this dialog">Cancel</button>
+                <button id="testServerBtn" class="btn btn-secondary" title="Test if this server configuration works by trying to start it (recommended before saving)">
+                    <span class="btn-text">Test</span>
+                    <span class="btn-spinner hidden">⟳</span>
+                </button>
+                <button id="saveServerBtn" class="btn btn-primary" title="Save this server configuration to your Claude settings">Save</button>
+            </div>
+            
+            <!-- Test Results Panel -->
+            <div id="testResultsPanel" class="test-results-panel hidden">
+                <div class="test-result-header">
+                    <span class="test-result-icon"></span>
+                    <span class="test-result-title"></span>
+                    <span class="test-result-time"></span>
+                </div>
+                <div class="test-result-message"></div>
+                <details class="test-output-details hidden">
+                    <summary>Show detailed logs</summary>
+                    <pre class="test-output-logs"></pre>
+                </details>
+                <div class="test-result-actions hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backups Modal -->
+    <div id="backupsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Version History</h2>
+                <button class="close-btn" onclick="hideBackupsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="backupsList" class="backups-list">
+                    <p>Loading backups...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import JSON Modal -->
+    <div id="importJsonModal" class="modal">
+        <div class="modal-content import-modal">
+            <div class="modal-header">
+                <h2>Import JSON Configuration</h2>
+                <button class="close-btn" onclick="hideImportModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="import-step" id="importStep1">
+                    <div class="import-instructions">
+                        <p>Paste your JSON configuration below. The system will automatically detect the format:</p>
+                        <ul>
+                            <li>Full config with <code>mcpServers</code> wrapper</li>
+                            <li>Single server object with name</li>
+                            <li>Server definition only (you'll be prompted for a name)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="import-input-section">
+                        <div class="import-input-header">
+                            <label for="jsonInput">JSON Configuration:</label>
+                            <button id="pasteFromClipboardBtn" class="btn btn-small">📋 Paste from Clipboard</button>
+                        </div>
+                        <textarea id="jsonInput" class="json-input" 
+                                placeholder='Paste your JSON here, for example:
+{
+  "mcpServers": {
+    "my-server": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/folder"]
+    }
+  }
+}
+
+or just:
+
+{
+  "command": "npx",
+  "args": ["-y", "@modelcontextprotocol/server-filesystem"]
+}'></textarea>
+                        <div id="jsonError" class="error-message hidden"></div>
+                    </div>
+                    
+                    <div class="import-step-actions">
+                        <button id="parseJsonBtn" class="btn btn-primary">Parse & Preview</button>
+                        <button id="cancelImportBtn" class="btn">Cancel</button>
+                    </div>
+                </div>
+                
+                <div class="import-step hidden" id="importStep2">
+                    <div class="import-preview-section">
+                        <h3>Import Preview</h3>
+                        <div id="importPreview" class="import-preview"></div>
+                        
+                        <div id="serverNamePrompt" class="server-name-prompt hidden">
+                            <label for="newServerName">Server Name:</label>
+                            <input type="text" id="newServerName" placeholder="Enter server name" />
+                        </div>
+                        
+                        <div id="duplicateHandling" class="duplicate-handling hidden">
+                            <h4>Duplicate Servers Found:</h4>
+                            <div id="duplicatesList" class="duplicates-list"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="import-step-actions">
+                        <button id="confirmImportBtn" class="btn btn-primary">Confirm Import</button>
+                        <button id="backToEditBtn" class="btn">Back to Edit</button>
+                        <button id="cancelImportBtn2" class="btn">Cancel</button>
+                    </div>
+                </div>
+                
+                <div class="import-step hidden" id="importStep3">
+                    <div class="import-success">
+                        <div class="success-icon">✅</div>
+                        <h3>Import Successful!</h3>
+                        <div id="importSummary" class="import-summary"></div>
+                    </div>
+                    
+                    <div class="import-step-actions">
+                        <button id="closeImportBtn" class="btn btn-primary">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Single Server Import Modal -->
+    <div id="singleServerImportModal" class="modal">
+        <div class="modal-content single-server-import-modal">
+            <div class="modal-header">
+                <h2>Import Server Configuration</h2>
+                <button class="close-btn" onclick="hideSingleServerImportModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="import-instructions">
+                    <p>Paste your server configuration below. Accepted formats:</p>
+                    <ul>
+                        <li><strong>Full config:</strong> <code>{"mcpServers": {"name": {...}}}</code></li>
+                        <li><strong>Single server:</strong> <code>{"name": {"command": "...", "args": [...]}}</code></li>
+                        <li><strong>Server only:</strong> <code>{"command": "...", "args": [...]}</code></li>
+                    </ul>
+                </div>
+                
+                <div class="single-import-input-section">
+                    <div class="single-import-input-header">
+                        <label for="singleJsonInput">Server Configuration:</label>
+                        <button id="singlePasteFromClipboardBtn" class="btn btn-small">📋 Paste from Clipboard</button>
+                    </div>
+                    <textarea id="singleJsonInput" class="single-json-input" 
+                            placeholder='Paste your server configuration here...
+
+Examples:
+{
+  "command": "npx",
+  "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/folder"]
+}
+
+Or:
+
+{
+  "my-server": {
+    "command": "npx", 
+    "args": ["-y", "@modelcontextprotocol/server-filesystem"]
+  }
+}'></textarea>
+                    
+                    <div class="validation-feedback">
+                        <div id="singleJsonValidation" class="validation-indicator hidden">
+                            <span class="validation-icon"></span>
+                            <span class="validation-text"></span>
+                        </div>
+                        <div id="singleJsonError" class="error-message hidden"></div>
+                    </div>
+                </div>
+                
+                <div id="singleServerPreview" class="single-server-preview hidden">
+                    <h4>Preview:</h4>
+                    <div id="singlePreviewContent" class="preview-content"></div>
+                </div>
+                
+                <div id="singleServerNamePrompt" class="server-name-prompt hidden">
+                    <label for="singleServerName">Server Name:</label>
+                    <input type="text" id="singleServerName" placeholder="Enter server name" />
+                    <div id="singleServerNameError" class="error-message hidden"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelSingleImportBtn" class="btn">Cancel</button>
+                <button id="addSingleServerBtn" class="btn btn-primary" disabled>Add Server</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toastNotification" class="toast-notification hidden">
+        <div class="toast-content">
+            <span class="toast-icon"></span>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <!-- Server Gallery Modal -->
+    <div id="serverGalleryModal" class="modal">
+        <div class="modal-content gallery-modal-content">
+            <div class="modal-header gallery-header">
+                <h2>Add a MCP Server</h2>
+                <div class="gallery-header-actions">
+                    <div class="add-custom-server-dropdown">
+                        <button id="addCustomServerBtn" class="btn btn-secondary dropdown-btn" title="Add a custom MCP server with manual configuration">
+                            <span class="btn-text">Add Custom Server</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </button>
+                        <div id="customServerDropdownMenu" class="dropdown-menu hidden">
+                            <div class="dropdown-item" id="galleryManualEntryOption" title="Use the guided form to enter server details step-by-step">
+                                <div class="dropdown-icon">✏️</div>
+                                <div class="dropdown-content">
+                                    <div class="dropdown-title">Manual Entry</div>
+                                    <div class="dropdown-subtitle">UI to enter your command</div>
+                                </div>
+                            </div>
+                            <div class="dropdown-item" id="galleryPasteJsonOption" title="Import server configuration by copying and pasting JSON from documentation or examples">
+                                <div class="dropdown-icon">📋</div>
+                                <div class="dropdown-content">
+                                    <div class="dropdown-title">Import JSON</div>
+                                    <div class="dropdown-subtitle">Import from existing config</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="close-btn">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="serverGalleryGrid" class="server-gallery-grid">
+                    <!-- Server cards will be populated here -->
+                </div>
+            </div>
+            <div class="modal-footer gallery-footer">
+                <p>Don't see what you're looking for?<br>
+                Request an addition to the gallery <a href="mailto:hello@mcpsforhumans.com?subject=MCP%20Server%20Request" class="gallery-request-link">here</a><br>
+                or click Add Custom Server ☝️</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Server Credential Modal -->
+    <div id="serverCredentialModal" class="modal">
+        <div class="modal-content credential-modal-content">
+            <div class="modal-header">
+                <h2 id="credentialModalTitle">Configure Server</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="credentialServerInfo" class="credential-server-info">
+                    <!-- Server icon and name will be displayed here -->
+                </div>
+                <form id="credentialForm" class="credential-form">
+                    <div id="credentialFields" class="credential-fields">
+                        <!-- Credential fields will be populated here -->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelCredentialBtn" class="btn">Cancel</button>
+                <button id="testCredentialBtn" class="btn btn-secondary">
+                    <span class="btn-text">Test Connection</span>
+                    <span class="btn-spinner hidden">⟳</span>
+                </button>
+                <button id="addServerFromGalleryBtn" class="btn btn-primary" disabled>Add Server</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Dependencies Status Modal -->
+    <div id="systemStatusModal" class="modal">
+        <div class="modal-content system-status-modal">
+            <div class="modal-header">
+                <h2>System Dependencies Status</h2>
+                <div class="modal-header-actions">
+                    <button id="refreshDependenciesBtn" class="btn btn-small">🔄 Check Again</button>
+                    <button class="close-btn" onclick="hideSystemStatusModal()">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="system-status-overview">
+                    <div id="systemStatusSummary" class="status-summary">
+                        <div class="status-summary-icon">🔄</div>
+                        <div class="status-summary-text">Checking system dependencies...</div>
+                    </div>
+                </div>
+                
+                <div class="dependencies-list">
+                    <h3>Dependency Status</h3>
+                    <div id="dependenciesList" class="dependencies-grid">
+                        <!-- Dependencies will be populated here -->
+                    </div>
+                </div>
+                
+                <div id="setupInstructions" class="setup-instructions hidden">
+                    <h3>Setup Instructions</h3>
+                    <div id="instructionsContent" class="instructions-content">
+                        <!-- Instructions will be populated here -->
+                    </div>
+                </div>
+                
+                <div id="serverStatusSection" class="server-status-section">
+                    <h3>Server Readiness</h3>
+                    <div id="serverReadinessList" class="server-readiness-list">
+                        <!-- Server readiness will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="modal" style="display: none;">
+        <div class="modal-content loading-modal">
+            <div class="loading-spinner"></div>
+            <p id="loadingMessage">Loading...</p>
+        </div>
+    </div>
+
+    <!-- Claude Not Installed Modal -->
+    <div id="claudeNotInstalledModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Claude Desktop Not Found</h2>
+            </div>
+            <div class="modal-body">
+                <div class="claude-not-found-content">
+                    <div class="claude-icon">🤖</div>
+                    <p>It looks like Claude Desktop isn't installed on your system.</p>
+                    <p>MCPs for Humans helps you configure MCP servers for Claude Desktop.</p>
+                    <div class="claude-actions">
+                        <button id="downloadClaudeBtn" class="btn btn-primary">
+                            <span>Download Claude Desktop</span>
+                        </button>
+                        <button id="browseConfigBtn" class="btn btn-secondary">
+                            <span>Browse for Config File</span>
+                        </button>
+                    </div>
+                    <div class="claude-help-text">
+                        <p>If you've already installed Claude in a custom location, you can browse for an existing configuration file.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal" style="display: none;">
+        <div class="modal-content error-modal">
+            <div class="modal-header">
+                <h2 id="errorModalTitle">Error</h2>
+                <button class="close-btn" id="closeErrorBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="error-content">
+                    <div class="error-icon">⚠️</div>
+                    <p id="errorModalMessage"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary close-error-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core JavaScript modules -->
+    <script src="js/core.js"></script>
+    <!-- Footer with version info -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <span class="version-info">Version <span id="appVersion">-</span></span>
+            <button id="checkUpdatesBtn" class="update-check-btn" title="Check for updates">Check for Updates</button>
+        </div>
+        <div id="updateProgress" class="update-progress hidden">
+            <span class="progress-text">Downloading update...</span>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="progress-percent" id="progressPercent">0%</span>
+        </div>
+    </footer>
+
+    <script src="js/command-parser.js"></script>
+    <script src="js/ui-utils.js"></script>
+    <script src="js/modals.js"></script>
+    <script src="js/server-management.js"></script>
+    <script src="js/system-deps.js"></script>
+    <script src="js/import-export.js"></script>
+    <script src="js/server-testing.js"></script>
+    <script src="js/gallery.js"></script>
+    <script src="renderer.js"></script>
+</body>
+</html>

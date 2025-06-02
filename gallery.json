@@ -1,0 +1,352 @@
+{
+  "servers": [
+    {
+      "id": "gmail",
+      "name": "Gmail",
+      "logo": "./logos/gmail.svg",
+      "command": "npx",
+      "args": ["-y", "supergateway", "--sse"],
+      "requiresUrlArg": true,
+      "introduction": {
+        "icon": "📧",
+        "title": "Connect your Gmail account",
+        "description": "When you add this server, you'll be able to:",
+        "features": [
+          "Search and read emails",
+          "Send emails and create drafts",
+          "Manage labels and attachments"
+        ]
+      },
+      "credentials": [
+        {
+          "key": "PIPEDREAM_URL",
+          "label": "Pipedream Server URL",
+          "type": "url",
+          "required": true,
+          "helpUrl": "https://mcp.pipedream.com/app/gmail",
+          "helpText": "Get your server URL from",
+          "helpLinkText": "Pipedream MCP",
+          "hideByDefault": true
+        }
+      ]
+    },
+    {
+      "id": "google-docs",
+      "name": "Google Docs",
+      "logo": "./logos/google-docs.svg",
+      "command": "npx",
+      "args": ["-y", "supergateway", "--sse"],
+      "requiresUrlArg": true,
+      "introduction": {
+        "icon": "📄",
+        "title": "Connect your Google Docs account",
+        "description": "When you add this server, you'll be able to:",
+        "features": [
+          "Create and edit documents",
+          "Apply formatting and styles",
+          "Collaborate and share documents",
+          "Create documents from templates"
+        ]
+      },
+      "credentials": [
+        {
+          "key": "PIPEDREAM_URL",
+          "label": "Pipedream Server URL",
+          "type": "url",
+          "required": true,
+          "helpUrl": "https://mcp.pipedream.com/app/google_docs",
+          "helpText": "Get your server URL from",
+          "helpLinkText": "Pipedream MCP",
+          "hideByDefault": true
+        }
+      ]
+    },
+    {
+      "id": "google-sheets",
+      "name": "Google Sheets",
+      "logo": "./logos/google-sheets.svg",
+      "command": "npx",
+      "args": ["-y", "supergateway", "--sse"],
+      "requiresUrlArg": true,
+      "introduction": {
+        "icon": "📊",
+        "title": "Connect your Google Sheets account",
+        "description": "When you add this server, you'll be able to:",
+        "features": [
+          "Create and edit spreadsheets",
+          "Read and write cell values",
+          "Clear and update rows",
+          "Manage multiple sheets"
+        ]
+      },
+      "credentials": [
+        {
+          "key": "PIPEDREAM_URL",
+          "label": "Pipedream Server URL",
+          "type": "url",
+          "required": true,
+          "helpUrl": "https://mcp.pipedream.com/app/google_sheets",
+          "helpText": "Get your server URL from",
+          "helpLinkText": "Pipedream MCP",
+          "hideByDefault": true
+        }
+      ]
+    },
+    {
+      "id": "google-calendar",
+      "name": "Google Calendar",
+      "logo": "./logos/google-calendar.svg",
+      "command": "npx",
+      "args": ["-y", "supergateway", "--sse"],
+      "requiresUrlArg": true,
+      "introduction": {
+        "icon": "📅",
+        "title": "Connect your Google Calendar account",
+        "description": "When you add this server, you'll be able to:",
+        "features": [
+          "View and search calendar events",
+          "Create and update events",
+          "Manage attendees and invitations",
+          "Work with multiple calendars"
+        ]
+      },
+      "credentials": [
+        {
+          "key": "PIPEDREAM_URL",
+          "label": "Pipedream Server URL",
+          "type": "url",
+          "required": true,
+          "helpUrl": "https://mcp.pipedream.com/app/google_calendar",
+          "helpText": "Get your server URL from",
+          "helpLinkText": "Pipedream MCP",
+          "hideByDefault": true
+        }
+      ]
+    },
+    {
+      "id": "salesforce",
+      "name": "Salesforce",
+      "logo": "./logos/salesforce.svg",
+      "command": "uvx",
+      "args": ["--from", "mcp-salesforce-connector", "salesforce"],
+      "configType": "credentials",
+      "introduction": {
+        "icon": "☁️",
+        "title": "Connect your Salesforce CRM",
+        "description": "When you add this server, you'll be able to:",
+        "features": [
+          "Query data with SOQL and SOSL",
+          "Create, read, update, and delete records",
+          "Access Salesforce metadata and fields",
+          "Execute Apex REST and Tooling API calls"
+        ]
+      },
+      "credentials": [
+        {
+          "key": "SALESFORCE_USERNAME",
+          "label": "Salesforce Username",
+          "type": "email",
+          "required": true,
+          "placeholder": "your.name@company.com"
+        },
+        {
+          "key": "SALESFORCE_PASSWORD",
+          "label": "Salesforce Password",
+          "type": "password",
+          "required": true,
+          "placeholder": ""
+        },
+        {
+          "key": "SALESFORCE_SECURITY_TOKEN",
+          "label": "Security Token",
+          "type": "password",
+          "required": true,
+          "placeholder": "",
+          "helpText": "Get your security token from Salesforce → Setup → My Personal Information → Reset Security Token"
+        },
+        {
+          "key": "SALESFORCE_INSTANCE_URL",
+          "label": "Instance URL",
+          "type": "url",
+          "required": false,
+          "placeholder": "https://yourinstance.salesforce.com",
+          "helpText": "Leave blank for default"
+        }
+      ],
+      "links": {
+        "github": "https://github.com/smn2gnt/MCP-Salesforce",
+        "linkText": "View MCP source on GitHub →"
+      }
+    },
+    {
+      "id": "hubspot",
+      "name": "HubSpot",
+      "logo": "./logos/hubspot.svg",
+      "command": "npx",
+      "args": ["-y", "@hubspot/mcp-server"],
+      "configType": "credentials",
+      "introduction": {
+        "icon": "🟠",
+        "title": "Connect your HubSpot CRM",
+        "description": "When you add this server, you'll be able to:",
+        "features": [
+          "Manage contacts, companies, and deals",
+          "Create tasks and engagements",
+          "Search and filter CRM records",
+          "Update properties and associations"
+        ]
+      },
+      "credentials": [
+        {
+          "key": "PRIVATE_APP_ACCESS_TOKEN",
+          "label": "Private App Access Token",
+          "type": "password",
+          "required": true,
+          "placeholder": "pat-na1-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+          "helpText": "Create a private app in HubSpot: Settings → Integrations → Private Apps"
+        }
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/@hubspot/mcp-server",
+        "linkText": "View MCP source on npm →"
+      }
+    },
+    {
+      "id": "madkudu",
+      "name": "MadKudu",
+      "logo": "./logos/madkudu.svg",
+      "status": "coming_soon",
+      "configType": "credentials",
+      "command": "npx",
+      "args": ["-y", "@madkudu/mcp"],
+      "introduction": {
+        "icon": "🎯",
+        "title": "Connect your MadKudu account",
+        "description": "When you add this server, you'll be able to:",
+        "features": [
+          "Access lead scoring and insights",
+          "Retrieve company intelligence",
+          "Analyze customer fit scores",
+          "Get enriched contact data"
+        ]
+      },
+      "credentials": [
+        {
+          "key": "API_KEY",
+          "label": "MadKudu API Key",
+          "type": "password",
+          "required": true,
+          "placeholder": "mk_live_xxxxxxxxxxxxxxxx",
+          "helpText": "Get your API key from MadKudu settings"
+        }
+      ],
+      "links": {
+        "npm": "https://www.npmjs.com/package/@madkudu/mcp",
+        "linkText": "View MCP source on npm →"
+      }
+    },
+    {
+      "id": "todoist",
+      "name": "Todoist",
+      "logo": "./logos/todoist.svg",
+      "command": "npx",
+      "args": ["-y", "@smithery/cli", "install", "@miottid/todoist-mcp", "--client", "claude"],
+      "configType": "credentials",
+      "introduction": {
+        "icon": "✓",
+        "title": "Connect your Todoist account",
+        "description": "When you add this server, you'll be able to:",
+        "features": [
+          "Create and manage tasks",
+          "Organize projects and labels",
+          "Set due dates and priorities",
+          "Add comments and collaborate"
+        ]
+      },
+      "credentials": [
+        {
+          "key": "TODOIST_API_KEY",
+          "label": "Todoist API Key",
+          "type": "password",
+          "required": true,
+          "placeholder": "0123456789abcdef0123456789abcdef01234567",
+          "helpText": "Get your API key from Todoist → Settings → Integrations → Developer"
+        }
+      ],
+      "links": {
+        "github": "https://github.com/Doist/todoist-mcp",
+        "linkText": "View MCP source on GitHub →"
+      }
+    },
+    {
+      "id": "asana",
+      "name": "Asana",
+      "logo": "./logos/asana.svg",
+      "configType": "sse",
+      "command": "npx",
+      "args": ["-y", "supergateway", "--sse"],
+      "introduction": {
+        "icon": "🔴",
+        "title": "Connect your Asana workspace",
+        "description": "When you add this server, you'll be able to:",
+        "features": [
+          "Create and manage tasks and projects",
+          "Track project status and updates",
+          "Access team information and goals",
+          "Search across your workspace"
+        ]
+      },
+      "sse": {
+        "url": "https://mcp.asana.com/sse",
+        "requiresAuth": true,
+        "authType": "oauth",
+        "authNotice": {
+          "title": "Authentication",
+          "text": "You'll be prompted to log in to your Asana account when you first use this integration in Claude."
+        },
+        "requirements": {
+          "title": "Requirements",
+          "text": "The \"Asana MCP\" app must be unblocked in your Asana workspace settings"
+        }
+      },
+      "links": {
+        "docs": "https://developers.asana.com/docs/using-asanas-model-control-protocol-mcp-server",
+        "linkText": "View Asana MCP documentation →"
+      }
+    },
+    {
+      "id": "postgresql",
+      "name": "PostgreSQL",
+      "logo": "./logos/postgres.svg",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres"],
+      "configType": "connection_string",
+      "introduction": {
+        "icon": "🐘",
+        "title": "Connect to your PostgreSQL database",
+        "description": "When you add this server, you'll be able to:",
+        "features": [
+          "Query data from your PostgreSQL database",
+          "View table schemas and relationships",
+          "Execute read-only SQL queries",
+          "Analyze database structure and content"
+        ]
+      },
+      "connectionString": {
+        "label": "PostgreSQL Connection String",
+        "placeholder": "postgresql://username:password@host:port/database",
+        "helpText": "Enter your PostgreSQL connection string. Common formats:",
+        "examples": [
+          "postgresql://user:pass@localhost:5432/mydb",
+          "postgresql://user:pass@host.docker.internal:5432/mydb",
+          "postgresql://user:pass@db.example.com:5432/mydb?sslmode=require"
+        ],
+        "warning": "⚠️ This integration provides READ-ONLY access to your database for safety"
+      },
+      "links": {
+        "github": "https://github.com/modelcontextprotocol/servers",
+        "linkText": "View MCP source on GitHub →"
+      }
+    }
+  ]
+}

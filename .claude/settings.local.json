@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(test:*)",
+      "Bash(security find-identity:*)",
+      "Bash(xattr:*)",
+      "Bash(npm install:*)",
+      "Bash(grep:*)",
+      "Bash(grep:*)",
+      "Bash(npm start)",
+      "Bash(node:*)",
+      "Bash(rm:*)",
+      "Bash(ls:*)"
+    ],
+    "deny": []
+  }
+}
