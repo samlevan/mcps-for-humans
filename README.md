@@ -9,7 +9,7 @@
   
   [![Website](https://img.shields.io/badge/Website-mcpsforhumans.com-blue)](https://mcpsforhumans.com/)
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-  [![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey)](https://github.com/your-username/mcps-for-humans/releases)
+  [![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey)](https://github.com/samlevan/mcps-for-humans/releases)
   
 </div>
 
@@ -47,6 +47,18 @@ MCPs for Humans transforms the way you configure Claude's MCP (Model Context Pro
 ## 📥 Download
 
 Get the latest version for your platform:
+
+### macOS
+- **Universal Binary** (Intel & Apple Silicon): [Download .dmg](https://github.com/samlevan/mcps-for-humans/releases/latest)
+
+### Windows  
+- **64-bit Installer**: [Download .exe](https://github.com/samlevan/mcps-for-humans/releases/latest)
+- **Portable**: [Download .zip](https://github.com/samlevan/mcps-for-humans/releases/latest)
+
+### Linux
+- **AppImage** (Universal): [Download .AppImage](https://github.com/samlevan/mcps-for-humans/releases/latest)
+- **Debian/Ubuntu**: [Download .deb](https://github.com/samlevan/mcps-for-humans/releases/latest)
+
 ## 🛠️ Development
 
 ### Prerequisites
@@ -126,6 +138,6 @@ MIT License - Open source. Free forever. Built with ❤️ for the Claude commun
 
 <div align="center">
   
-**[Visit mcpsforhumans.com](https://mcpsforhumans.com/) • [Download Latest Release](https://github.com/your-username/mcps-for-humans/releases/latest) • [Report Issues](https://github.com/your-username/mcps-for-humans/issues)**
+**[Visit mcpsforhumans.com](https://mcpsforhumans.com/) • [Download Latest Release](https://github.com/samlevan/mcps-for-humans/releases/latest) • [Report Issues](https://github.com/samlevan/mcps-for-humans/issues)**
 
 </div> 
