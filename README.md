@@ -51,13 +51,6 @@ Get the latest version for your platform:
 ### macOS
 - **Universal Binary** (Intel & Apple Silicon): [Download .dmg](https://github.com/samlevan/mcps-for-humans/releases/latest)
 
-### Windows  
-- **64-bit Installer**: [Download .exe](https://github.com/samlevan/mcps-for-humans/releases/latest)
-- **Portable**: [Download .zip](https://github.com/samlevan/mcps-for-humans/releases/latest)
-
-### Linux
-- **AppImage** (Universal): [Download .AppImage](https://github.com/samlevan/mcps-for-humans/releases/latest)
-- **Debian/Ubuntu**: [Download .deb](https://github.com/samlevan/mcps-for-humans/releases/latest)
 
 ## 🛠️ Development
 
@@ -95,29 +88,12 @@ npm run build:mac
 # macOS signed and notarized (requires Apple Developer account)
 npm run build:mac:signed
 
-# Windows only
-npm run build:win
-
-# Linux only
-npm run build:linux
-```
-
-#### Development builds:
-```bash
-# Create unpacked directory (faster for testing)
-npm run pack
-
-# Create distributable packages
-npm run dist
-```
 
 ### Build Output
 
 Built applications will be saved in the `dist/` directory:
 
 - **macOS**: `.dmg` and `.zip` files
-- **Windows**: `.exe` installer and `.zip` files  
-- **Linux**: `.AppImage` and `.deb` packages
 
 ## 🤝 Contributing
 

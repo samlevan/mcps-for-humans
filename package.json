@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "MCPs for Humans - A friendly GUI for managing Claude MCP (Model Context Protocol) configurations",
   "main": "main.js",
-  "homepage": "https://github.com/your-username/mcps-for-humans",
+  "homepage": "https://mcpsforhumans.com/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/mcps-for-humans.git"
+    "url": "https://github.com/samlevan/mcps-for-humans.git"
   },
   "scripts": {
     "start": "electron .",
@@ -122,7 +122,7 @@
     "publish": [
       {
         "provider": "github",
-        "owner": "your-username",
+        "owner": "samlevan",
         "repo": "mcps-for-humans"
       }
     ]
