@@ -102,13 +102,18 @@ To build a signed and notarized DMG for distribution:
 
 2. **Build, sign, and notarize**:
    ```bash
-   npm run build:mac:dmg
+   # Build both architectures (Intel + Apple Silicon)
+   npm run build:mac:dmg -- --x64 --arm64
+
+   # Or build them separately
+   npm run build:mac:dmg -- --x64    # Intel only
+   npm run build:mac:dmg -- --arm64  # Apple Silicon only
    ```
 
    This will automatically:
-   - Build the application
+   - Build the application for specified architecture(s)
    - Code sign with your Developer ID certificate
-   - Create a DMG installer
+   - Create DMG installer(s)
    - Submit to Apple for notarization
    - Staple the notarization ticket
 
