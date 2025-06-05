@@ -82,12 +82,37 @@ npm run build
 
 #### Build for specific platforms:
 ```bash
-# macOS only
+# macOS DMG (unsigned)
 npm run build:mac
 
-# macOS signed and notarized (requires Apple Developer account)
-npm run build:mac:signed
+# macOS DMG - signed and notarized (requires Apple Developer account)
+npm run build:mac:dmg
+```
 
+#### Code Signing and Notarization (macOS)
+
+To build a signed and notarized DMG for distribution:
+
+1. **Set up your Apple Developer credentials**:
+   ```bash
+   export APPLE_ID="your.email@example.com"
+   export APPLE_ID_PASSWORD="xxxx-xxxx-xxxx-xxxx"  # App-specific password
+   export APPLE_TEAM_ID="XXXXXXXXXX"
+   ```
+
+2. **Build, sign, and notarize**:
+   ```bash
+   npm run build:mac:dmg
+   ```
+
+   This will automatically:
+   - Build the application
+   - Code sign with your Developer ID certificate
+   - Create a DMG installer
+   - Submit to Apple for notarization
+   - Staple the notarization ticket
+
+**Note**: You need an Apple Developer account and a valid Developer ID certificate installed in your Keychain.
 
 ### Build Output
 
