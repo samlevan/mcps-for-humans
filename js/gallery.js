@@ -602,7 +602,14 @@ async function addServerFromGallery() {
                 // Store connection string separately for args
                 connectionString = value;
             } else {
-                env[input.name] = value;
+                // Check if this credential has a urlFormat property
+                const credential = selectedServer.credentials?.find(cred => cred.key === input.name);
+                if (credential && credential.urlFormat && selectedServer.requiresUrlArg) {
+                    // Format the URL with the credential value
+                    urlValue = credential.urlFormat.replace('{value}', value);
+                } else {
+                    env[input.name] = value;
+                }
             }
         } else if (input.required) {
             // Include empty required fields (shouldn't happen with validation)

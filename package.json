@@ -1,6 +1,6 @@
 {
   "name": "mcps-for-humans",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCPs for Humans - A friendly GUI for managing Claude MCP (Model Context Protocol) configurations",
   "main": "main.js",
   "homepage": "https://mcpsforhumans.com/",
