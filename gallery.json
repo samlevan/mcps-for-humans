@@ -150,7 +150,7 @@
           "required": true,
           "placeholder": "mk_live_xxxxxxxxxxxxxxxx",
           "helpText": "Get your API key from MadKudu settings",
-          "urlFormat": "https://mcp.madkudu.com/sse?apiKey={value}"
+          "urlFormat": "https://mcp.madkudu.com/{value}/sse"
         }
       ],
       "links": {
